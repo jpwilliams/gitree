@@ -1,0 +1,42 @@
+{
+  "name": "gitree",
+  "version": "0.0.0",
+  "description": "Print a directory tree that shows Git status and ignores files dictated by .gitignore.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpwilliams/gitree.git"
+  },
+  "keywords": [
+    "git",
+    "status",
+    "tree",
+    "directory",
+    "modified",
+    "added",
+    "untracked",
+    "renamed",
+    "diff"
+  ],
+  "author": "Jack Williams",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jpwilliams/gitree/issues"
+  },
+  "homepage": "https://github.com/jpwilliams/gitree#readme",
+  "bin": {
+    "gitree": "./index.js",
+    "gt": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "directory-tree": "^2.0.0",
+    "execa": "^0.8.0",
+    "glob-to-regexp": "^0.3.0",
+    "parse-git-status": "^0.1.0",
+    "parse-gitignore": "^0.4.0"
+  }
+}
