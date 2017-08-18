@@ -1,13 +1,22 @@
 #! /usr/bin/env node
 
-// switch to use TREE for all of this
-// tree -C -I $((cat .gitignore 2> /dev/null || cat $(git rev-parse --show-toplevel 2> /dev/null)/.gitignore 2> /dev/null || echo "node_modules") | egrep -v "^#.*$|^[[:space:]]*$" | tr "\\n" "|" | rev | cut -c 2- | rev) -Jf
-
+const version = require('./package.json').version
 const path = require('path')
 const execa = require('execa')
 const chalk = require('chalk')
 const parseGitStatus = require('parse-git-status')
-const cmd = 'tree -C -I $((cat .gitignore 2> /dev/null || cat $(git rev-parse --show-toplevel 2> /dev/null)/.gitignore 2> /dev/null || echo "node_modules") | egrep -v "^#.*$|^[[:space:]]*$" | tr "\\n" "|" | rev | cut -c 2- | rev) -Jf'
+const _ = require('lodash')
+const program = require('commander')
+
+program
+  .version(version)
+  .usage('[options]')
+  .option('-m, --modified', 'Only show modified files')
+  .parse(process.argv)
+
+const cmd = 'git ls-files --exclude-standard --directory --no-empty-directory'
+
+gitree('./')
 
 async function gitree (p) {
   const statuses = {}
@@ -21,22 +30,46 @@ async function gitree (p) {
     })
   } catch (e) {}
 
-  let data = []
-
   try {
-    const { stdout: treeOut } = await execa.shell(cmd)
-    data = JSON.parse(treeOut)
+    var { stdout: filesOut } = await execa.shell(cmd + (program.modified ? ' -m' : ''))
   } catch (e) {}
 
-  return looper('', statuses, data)
+  const data = filesOut.split('\n').map((file) => {
+    return './' + file
+  }).reduce((files, file, i) => {
+    const split = file.split(path.sep)
+    const fileName = split.pop()
+    const target = split.length ? getFileTarget(files, split) : files
+    target.push({name: fileName, type: 'file', path: file})
+
+    return files
+  }, [])
+
+  looper('', statuses, data)
+}
+
+function getFileTarget (list, dirs) {
+  const dir = dirs.shift()
+  if (!dir) return list
+
+  const foundDir = _.find(list, (file) => {
+    return (file.type === 'directory' && file.name === dir)
+  })
+
+  if (foundDir) {
+    return getFileTarget(foundDir.contents, dirs)
+  }
+
+  list.push({
+    type: 'directory',
+    name: dir,
+    contents: []
+  })
+
+  return getFileTarget(list[list.length - 1].contents, dirs)
 }
 
 function looper (prefix, statuses, nodes, level = 0) {
-  // the prefixes here need passing down to each looper
-  // call.
-  // this will resolve issues.
-  // if last parent, add prefix of '|' for each level.
-  // if not, add a gap.
   const len = nodes.length - 1
 
   nodes.forEach((node, i) => {
@@ -44,11 +77,11 @@ function looper (prefix, statuses, nodes, level = 0) {
 
     switch (node.type) {
       case 'directory':
-        addition += chalk.bold.blue(path.basename(node.name))
+        addition += chalk.bold.blue(node.name)
         break
       case 'file':
-        addition += path.basename(node.name)
-        const cutName = node.name.substr(2)
+        addition += node.name
+        const cutName = node.path.substr(2)
 
         if (statuses[cutName]) {
           const { x, y } = statuses[cutName]
@@ -70,8 +103,6 @@ function looper (prefix, statuses, nodes, level = 0) {
     console.log(prefix + postPrefix + addition)
 
     if (node.contents && node.contents.length) {
-      // get appropriate piece of prefix so far
-      // let newPrefix = prefix.substr(0, 4 * level)
       let newPrefix = prefix
 
       if (level) {
@@ -88,7 +119,3 @@ function looper (prefix, statuses, nodes, level = 0) {
     }
   })
 }
-
-;(async () => {
-  await gitree('./')
-})()
