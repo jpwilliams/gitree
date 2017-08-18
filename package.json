@@ -33,10 +33,6 @@
   },
   "dependencies": {
     "chalk": "^2.1.0",
-    "directory-tree": "^2.0.0",
     "execa": "^0.8.0",
-    "glob-to-regexp": "^0.3.0",
-    "parse-git-status": "^0.1.0",
-    "parse-gitignore": "^0.4.0"
   }
 }
