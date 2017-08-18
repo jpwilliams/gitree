@@ -1,6 +1,6 @@
 {
   "name": "gitree",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Print a directory tree that shows Git status and ignores files dictated by .gitignore.",
   "main": "index.js",
   "scripts": {
