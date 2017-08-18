@@ -34,6 +34,10 @@ async function gitree (p) {
     var { stdout: filesOut } = await execa.shell(cmd + (program.modified ? ' -m' : ''))
   } catch (e) {}
 
+  if (!filesOut) {
+    return console.log('No git repository found.')
+  }
+
   const data = filesOut.split('\n').map((file) => {
     return './' + file
   }).reduce((files, file, i) => {
