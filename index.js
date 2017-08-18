@@ -31,48 +31,18 @@ async function gitree (p) {
     console.log(e)
   }
 
-  return looper(false, statuses, data)
+  return looper('', statuses, data)
 }
 
-function looper (lastParent, statuses, nodes, level = 0) {
-  let str = ''
-  let prefix = ''
-
-  if (level) {
-    if (level > 1) prefix += '│   '
-    // prefix += '    '.repeat(Math.max(level - 2, 0))
-  }
-
-  const len = (level === 0 && nodes.length === 2) ? 0 : (nodes.length - 1)
-
+function looper (prefix, statuses, nodes, level = 0) {
   // the prefixes here need passing down to each looper
   // call.
   // this will resolve issues.
+  // if last parent, add prefix of '|' for each level.
+  // if not, add a gap.
+  const len = nodes.length - 1
+
   nodes.forEach((node, i) => {
-    let postPrefix = ''
-
-    if (len > 0) {
-      if (level > 2) {
-        if (lastParent) {
-          postPrefix += '    '
-        } else {
-          postPrefix += '│   '
-        }
-      }
-
-      if (i === len) {
-        postPrefix += '└── '
-      } else {
-        postPrefix += '├── '
-      }
-    } else {
-      if (level) {
-        postPrefix += '└── '
-      } else {
-        postPrefix += ''
-      }
-    }
-
     let addition = ''
 
     switch (node.type) {
@@ -98,10 +68,26 @@ function looper (lastParent, statuses, nodes, level = 0) {
         break
     }
 
+    const postPrefix = level > 0 ? (len > 0 ? (i === len ? '└── ' : '├── ') : (level ? '└── ' : '')) : ''
+
     console.log(prefix + postPrefix + addition)
 
     if (node.contents && node.contents.length) {
-      looper(i === len, statuses, node.contents, level + 1)
+      // get appropriate piece of prefix so far
+      // let newPrefix = prefix.substr(0, 4 * level)
+      let newPrefix = prefix
+
+      if (level) {
+        if (i === (nodes.length - 1)) {
+          // last item, so don't add lines
+          newPrefix += '    '
+        } else {
+          // not last item, so add lines
+          newPrefix += '│   '
+        }
+      }
+
+      looper(newPrefix, statuses, node.contents, level + 1)
     }
   })
 }
