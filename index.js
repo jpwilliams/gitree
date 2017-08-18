@@ -10,26 +10,23 @@ const parseGitStatus = require('parse-git-status')
 const cmd = 'tree -C -I $((cat .gitignore 2> /dev/null || cat $(git rev-parse --show-toplevel 2> /dev/null)/.gitignore 2> /dev/null || echo "node_modules") | egrep -v "^#.*$|^[[:space:]]*$" | tr "\\n" "|" | rev | cut -c 2- | rev) -Jf'
 
 async function gitree (p) {
-  try {
-    const [
-      { stdout: treeOut },
-      { stdout: statusOut }
-    ] = await Promise.all([
-      execa.shell(cmd),
-      execa.shell('git status --porcelain -z')
-    ])
+  const statuses = {}
 
+  try {
+    const { stdout: statusOut } = await execa.shell('git status --porcelain -z')
     const gitStatuses = parseGitStatus(statusOut)
-    var statuses = {}
 
     gitStatuses.forEach((status) => {
       statuses[status.to] = status
     })
+  } catch (e) {}
 
-    var data = JSON.parse(treeOut)
-  } catch (e) {
-    console.log(e)
-  }
+  let data = []
+
+  try {
+    const { stdout: treeOut } = await execa.shell(cmd)
+    data = JSON.parse(treeOut)
+  } catch (e) {}
 
   return looper('', statuses, data)
 }
