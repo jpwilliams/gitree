@@ -1,7 +1,8 @@
+const path = require('path')
 const chalk = require('chalk')
 const parseGitStatus = require('parse-git-status')
 
-function looper (statuses, nodes, level = 0, prefix = '') {
+function looper (statuses, nodes, onlyModified, level = 0, prefix = '') {
   const len = nodes.length - 1
 
   nodes.forEach((node, i) => {
@@ -16,12 +17,21 @@ function looper (statuses, nodes, level = 0, prefix = '') {
         const cutName = node.path.substr(2)
 
         if (statuses[cutName]) {
-          const { x, y } = statuses[cutName]
+          const {
+            x,
+            y,
+            from: sFrom,
+            to: sTo
+          } = statuses[cutName]
 
           if (x === 'A') {
             addition = chalk.green(addition) + chalk.dim(' - new file')
           } else if (x === 'M' || y === 'M') {
             addition = chalk.yellow(addition) + chalk.dim(' - ' + parseGitStatus.describeCode('M'))
+          } else if (y === 'D') {
+            addition = chalk.red(addition) + chalk.dim(' - deleted')
+          } else if (x === 'R') {
+            addition = chalk.yellow.italic(addition) + chalk.dim(` - renamed from "${path.relative(path.dirname(sTo), sFrom)}"`)
           } else if (x === '?' || y === '?') {
             addition = chalk.dim(addition + ' - untracked')
           }
@@ -47,7 +57,7 @@ function looper (statuses, nodes, level = 0, prefix = '') {
         }
       }
 
-      looper(statuses, node.contents, level + 1, newPrefix)
+      looper(statuses, node.contents, onlyModified, level + 1, newPrefix)
     }
   })
 }

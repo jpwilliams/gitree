@@ -25,8 +25,8 @@ gitree('./')
 async function gitree (p) {
   const data = await Promise.all([
     getGitStatuses(),
-    getFileList(program.modified)
+    getFileList()
   ])
 
-  looper(...data)
+  looper(...data, Boolean(program.modified))
 }
