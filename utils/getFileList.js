@@ -8,15 +8,10 @@ async function getFileList (onlyModified) {
     runCmdSwallowErr(`${cmd} -o`)
   ])
 
-  const sortedFiles = files
-    .join('\n')
-    .trim()
-    .split('\n')
-    .sort()
+  const trimmedOutput = files.join('\n').trim()
+  if (!trimmedOutput) return []
 
-  const data = processFiles(sortedFiles)
-
-  return data
+  return processFiles(trimmedOutput.split('\n').sort())
 }
 
 async function runCmdSwallowErr (cmd) {
