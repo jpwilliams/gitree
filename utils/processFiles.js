@@ -3,7 +3,6 @@ const getFileTarget = require('./getFileTarget')
 
 function processFiles (x) {
   return x
-    .split('\n')
     .map((file) => {
       return './' + file
     })
