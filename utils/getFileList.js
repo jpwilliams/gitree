@@ -4,8 +4,8 @@ const cmd = 'git ls-files --exclude-standard --directory --no-empty-directory'
 
 async function getFileList (onlyModified) {
   const files = await Promise.all([
-    getGitFiles(onlyModified),
-    getUntrackedFiles()
+    runCmdSwallowErr(`${cmd}${onlyModified ? ' -m' : ''}`),
+    runCmdSwallowErr(`${cmd} -o`)
   ])
 
   const sortedFiles = files
@@ -19,26 +19,12 @@ async function getFileList (onlyModified) {
   return data
 }
 
-async function getGitFiles (onlyModified) {
+async function runCmdSwallowErr (cmd) {
   try {
-    var { stdout: filesOut } = await execa.shell(cmd + (onlyModified ? ' -m' : ''))
+    var { stdout } = await execa.shell(cmd)
   } catch (e) {}
 
-  if (!filesOut) {
-    console.log('No files or no git repository found.')
-
-    return ''
-  }
-
-  return filesOut
-}
-
-async function getUntrackedFiles () {
-  try {
-    var { stdout: filesOut } = await execa.shell(cmd + ' -o')
-  } catch (e) {}
-
-  return filesOut || ''
+  return stdout || ''
 }
 
 module.exports = getFileList
