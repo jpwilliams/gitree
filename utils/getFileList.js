@@ -8,7 +8,7 @@ async function getFileList (onlyModified) {
   } catch (e) {}
 
   if (!filesOut) {
-    console.log('No git repository found.')
+    console.log('No files or no git repository found.')
 
     return []
   }
