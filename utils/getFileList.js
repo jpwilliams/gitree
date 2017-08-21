@@ -1,6 +1,6 @@
 const execa = require('execa')
 const processFiles = require('./processFiles')
-const cmd = 'git ls-files --exclude-standard --directory --no-empty-directory'
+const cmd = 'git ls-files --exclude-standard'
 
 async function getFileList (onlyModified) {
   const files = await Promise.all([

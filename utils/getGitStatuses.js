@@ -5,7 +5,7 @@ async function getGitStatuses () {
   const statuses = {}
 
   try {
-    const { stdout: statusOut } = await execa.shell('git status --porcelain -z')
+    const { stdout: statusOut } = await execa.shell('git status --porcelain -z -uall')
     const gitStatuses = parseGitStatus(statusOut)
 
     gitStatuses.forEach((status) => {
