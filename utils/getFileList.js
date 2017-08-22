@@ -1,9 +1,9 @@
 const execa = require('execa')
-const cmd = 'git ls-files --exclude-standard -co'
+const cmd = 'git ls-files --exclude-standard -co --full-name'
 
-async function getFileList () {
+async function getFileList (p) {
   try {
-    var { stdout: files } = await execa.shell(cmd)
+    var { stdout: files } = await execa.shell(cmd + ' ' + p)
   } catch (e) {}
 
   if (!files) {

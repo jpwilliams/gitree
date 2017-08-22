@@ -1,11 +1,11 @@
 const execa = require('execa')
 const parseGitStatus = require('parse-git-status')
 
-async function getGitStatuses () {
+async function getGitStatuses (p) {
   const statuses = {}
 
   try {
-    const { stdout: statusOut } = await execa.shell('git status --porcelain -z -uall')
+    const { stdout: statusOut } = await execa.shell(`git status --porcelain -z -uall ${p}`)
     const gitStatuses = parseGitStatus(statusOut)
 
     gitStatuses.forEach((status) => {

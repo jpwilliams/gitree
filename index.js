@@ -19,29 +19,29 @@ const {
 
 program
   .version(version)
-  .usage('[options]')
+  .usage('[options] [dir]')
   .option('-m, --modified', 'only show modified files')
   .parse(process.argv)
 
-gitree()
+gitree(program.args[0] || '.')
 
-async function gitree () {
+async function gitree (p) {
   let gitStatuses, files
 
   if (program.modified) {
-    gitStatuses = await getGitStatuses()
+    gitStatuses = await getGitStatuses(p)
     files = filesFromGitStatus(gitStatuses)
   } else {
     ;([
       gitStatuses,
       files
     ] = await Promise.all([
-      getGitStatuses(),
-      getFileList()
+      getGitStatuses(p),
+      getFileList(p)
     ]))
   }
 
-  const nodes = buildNodes(files, gitStatuses)
-  const tree = buildTree(nodes)
+  const nodes = await buildNodes(files, gitStatuses)
+  const tree = buildTree(nodes, p)
   printTree(tree)
 }
