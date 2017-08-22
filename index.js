@@ -20,7 +20,7 @@ const {
 program
   .version(version)
   .usage('[options]')
-  .option('-m, --modified', 'Only show modified files')
+  .option('-m, --modified', 'only show modified files')
   .parse(process.argv)
 
 gitree()
