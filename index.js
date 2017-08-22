@@ -41,7 +41,11 @@ async function gitree (p) {
     ]))
   }
 
-  const nodes = await buildNodes(files, gitStatuses)
+  if (!files.length) {
+    return
+  }
+
+  const nodes = await buildNodes(files, gitStatuses, p)
   const tree = buildTree(nodes, p)
   printTree(tree)
 }

@@ -2,12 +2,10 @@ const path = require('path')
 const getFileTarget = require('./getFileTarget')
 
 function buildTree (nodes, p) {
-  const wrapper = path.relative(process.cwd(), path.join(process.cwd(), p)) || '.'
-
-  return nodes
+  const parsedNodes = nodes
     .reduce((nodes, node, i) => {
       const calculatedPath = path.relative(path.join(process.cwd(), p), node.to)
-      const fakePath = wrapper + path.sep + calculatedPath
+      const fakePath = calculatedPath
 
       const split = fakePath.split(path.sep)
       const fileName = split.pop()
@@ -22,6 +20,14 @@ function buildTree (nodes, p) {
 
       return nodes
     }, [])
+
+  const wrapper = path.relative(process.cwd(), path.join(process.cwd(), p)) || '.'
+
+  return [{
+    name: wrapper,
+    type: 'directory',
+    contents: parsedNodes
+  }]
 }
 
 module.exports = buildTree

@@ -1,8 +1,8 @@
 const path = require('path')
 const getGitRoot = require('./getGitRoot')
 
-async function buildNodes (files, statuses) {
-  const gitRoot = await getGitRoot()
+async function buildNodes (files, statuses, p) {
+  const gitRoot = await getGitRoot(p)
 
   return files
     .map((file) => {
