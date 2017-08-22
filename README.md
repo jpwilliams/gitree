@@ -29,6 +29,21 @@ Like Git, `gitree` only tracks _files_, so empty directories will never be liste
 
 It won't work. You must be somewhere within a Git repository to list any files. If you just want a basic tree view _without_ Git integration, consider the built-in `tree` command for Linux/Windows or the [`tree` homebrew formula](http://brewformulas.org/Tree) for Mac OSX.
 
+# What else can it do?
+
+Just this stuff:
+
+``` sh
+Usage: gitree [options]
+
+
+Options:
+
+  -V, --version   output the version number
+  -m, --modified  only show modified files
+  -h, --help      output usage information
+```
+
 # Can it get any cooler?
 
 There's a built-in alias, `gt`. Fantabulous, eh?
