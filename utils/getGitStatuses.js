@@ -11,9 +11,11 @@ async function getGitStatuses () {
     gitStatuses.forEach((status) => {
       statuses[status.to] = status
     })
-  } catch (e) {}
 
-  return statuses
+    return statuses
+  } catch (e) {
+    return []
+  }
 }
 
 module.exports = getGitStatuses
