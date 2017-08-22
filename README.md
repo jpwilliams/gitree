@@ -34,7 +34,7 @@ It won't work. You must be somewhere within a Git repository to list any files. 
 Just this stuff:
 
 ``` sh
-Usage: gitree [options]
+Usage: gitree [options] [dir]
 
 
 Options:
