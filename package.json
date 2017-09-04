@@ -35,7 +35,6 @@
     "chalk": "^2.1.0",
     "commander": "^2.11.0",
     "execa": "^0.8.0",
-    "lodash": "^4.17.4",
     "microloader": "^0.4.2",
     "parse-git-status": "^0.1.0"
   }

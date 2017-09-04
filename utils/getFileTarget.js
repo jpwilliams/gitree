@@ -1,10 +1,8 @@
-const _ = require('lodash')
-
 function getFileTarget (list, dirs) {
   const dir = dirs.shift()
   if (!dir) return list
 
-  const foundDir = _.find(list, (file) => {
+  const foundDir = list.find((file) => {
     return (file.type === 'directory' && file.name === dir)
   })
 
