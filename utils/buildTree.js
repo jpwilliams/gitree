@@ -2,9 +2,12 @@ const path = require('path')
 const getFileTarget = require('./getFileTarget')
 
 function buildTree (nodes, p) {
+  const isAbsolute = path.isAbsolute(p)
+  const basePath = isAbsolute ? p : path.join(process.cwd(), p)
+
   const parsedNodes = nodes
     .reduce((nodes, node, i) => {
-      const calculatedPath = path.relative(path.join(process.cwd(), p), node.to)
+      const calculatedPath = path.relative(basePath, node.to)
       const fakePath = calculatedPath
 
       const split = fakePath.split(path.sep)
@@ -21,7 +24,7 @@ function buildTree (nodes, p) {
       return nodes
     }, [])
 
-  const wrapper = path.relative(process.cwd(), path.join(process.cwd(), p)) || '.'
+  const wrapper = isAbsolute ? p : (path.relative(process.cwd(), basePath) || '.')
 
   return [{
     name: wrapper,
