@@ -21,6 +21,7 @@ program
   .version(version)
   .usage('[options] [dir]')
   .option('-m, --modified', 'only show modified files')
+  .option('-t, --tracked', 'only show tracked files')
   .parse(process.argv)
 
 gitree(program.args[0] || '.')
@@ -45,7 +46,7 @@ async function gitree (p) {
     return
   }
 
-  const nodes = await buildNodes(files, gitStatuses, p)
+  const nodes = await buildNodes(files, gitStatuses, p, program.tracked)
   const tree = buildTree(nodes, p)
   printTree(tree)
 }
