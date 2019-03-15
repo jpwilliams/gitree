@@ -41,6 +41,7 @@ Options:
 
   -V, --version   output the version number
   -m, --modified  only show modified files
+  -t, --tracked   only show tracked files
   -h, --help      output usage information
 ```
 
