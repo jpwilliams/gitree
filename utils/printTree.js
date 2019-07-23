@@ -14,15 +14,15 @@ function printTree (tree, level = 0, prefix = '') {
         line += node.name
       } else {
         if (node.x === 'A') {
-          line += chalk.green(node.name) + chalk.dim(' - new file')
+          line += chalk.green(node.name) + (node.hasOwnProperty('added') ? ` ${chalk.green(`+${node.added}`)} ${chalk.red(`-${node.deleted}`)}` : '') + chalk.dim(' (new file)')
         } else if (node.x === 'M' || node.y === 'M') {
-          line += chalk.yellow(node.name) + chalk.dim(' - modified')
+          line += chalk.yellow(node.name) + (node.hasOwnProperty('added') ? ` ${chalk.green(`+${node.added}`)} ${chalk.red(`-${node.deleted}`)}` : '')
         } else if (node.y === 'D' || node.x === 'D') {
-          line += chalk.red(node.name) + chalk.dim(' - deleted')
+          line += chalk.red(node.name) + (node.hasOwnProperty('added') ? ` ${chalk.green(`+${node.added}`)} ${chalk.red(`-${node.deleted}`)}` : '') + chalk.dim(' (deleted)')
         } else if (node.x === 'R') {
-          line += chalk.yellow.italic(node.name) + chalk.dim(` - renamed from "${path.relative(path.dirname(node.to), node.from)}"`)
+          line += chalk.yellow.italic(node.name) + (node.hasOwnProperty('added') ? ` ${chalk.green(`+${node.added}`)} ${chalk.red(`-${node.deleted}`)}` : '') + chalk.dim(` (renamed from "${path.relative(path.dirname(node.to), node.from)}")`)
         } else if (node.x === '?' || node.y === '?') {
-          line += chalk.dim(node.name + ' - untracked')
+          line += chalk.dim(node.name) + (node.hasOwnProperty('added') ? ` ${chalk.green(`+${node.added}`)} ${chalk.red(`-${node.deleted}`)}` : '') + chalk.dim(' (untracked)')
         }
       }
     }
