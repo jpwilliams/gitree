@@ -1,7 +1,7 @@
 const path = require('path')
 const getGitRoot = require('./getGitRoot')
 
-async function buildNodes (files, statuses, p, trackedOnly) {
+async function buildNodes (files, statuses, lineChanges, p, trackedOnly) {
   const gitRoot = await getGitRoot(p)
 
   files = files.reduce((list, file) => {
@@ -25,6 +25,11 @@ async function buildNodes (files, statuses, p, trackedOnly) {
       delete statuses[file]
     }
 
+    if (lineChanges[file]) {
+      ret.added = lineChanges[file].added
+      ret.deleted = lineChanges[file].deleted
+    }
+
     list.push(ret)
 
     return list
@@ -36,12 +41,19 @@ async function buildNodes (files, statuses, p, trackedOnly) {
         return
       }
 
-      files.push({
+      const file = {
         to: path.join(gitRoot, statuses[status].to),
         from: statuses[status].from ? path.join(gitRoot, statuses[status].from) : null,
         x: statuses[status].x,
         y: statuses[status].y
-      })
+      }
+
+      if (lineChanges[file.to]) {
+        file.added = lineChanges[file.to].added
+        file.deleted = lineChanges[file.to].deleted
+      }
+
+      files.push(file)
     })
   }
 

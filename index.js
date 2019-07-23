@@ -11,7 +11,8 @@ const {
   buildNodes,
   buildTree,
   filesFromGitStatus,
-  printTree
+  printTree,
+  getGitLineChanges
 } = microloader('.', {
   objectify: true,
   cwd: path.join(__dirname, 'utils')
@@ -27,18 +28,30 @@ program
 gitree(program.args[0] || '.')
 
 async function gitree (p) {
-  let gitStatuses, files
+  let gitStatuses, files, gitLineChanges
 
   if (program.modified) {
-    gitStatuses = await getGitStatuses(p)
-    files = filesFromGitStatus(gitStatuses)
+    ;([
+      gitStatuses,
+      gitLineChanges
+    ] = await Promise.all([
+      getGitStatuses(p).then((result) => {
+        files = filesFromGitStatus(result)
+
+        return result
+      }),
+
+      getGitLineChanges(p)
+    ]))
   } else {
     ;([
       gitStatuses,
-      files
+      files,
+      gitLineChanges
     ] = await Promise.all([
       getGitStatuses(p),
-      getFileList(p)
+      getFileList(p),
+      getGitLineChanges(p)
     ]))
   }
 
@@ -46,7 +59,7 @@ async function gitree (p) {
     return
   }
 
-  const nodes = await buildNodes(files, gitStatuses, p, program.tracked)
+  const nodes = await buildNodes(files, gitStatuses, gitLineChanges, p, program.tracked)
   const tree = buildTree(nodes, p)
   printTree(tree)
 }
