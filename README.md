@@ -1,6 +1,6 @@
 # gitree
 
-Print a directory tree that shows Git status and ignores files dictated by .gitignore.
+Print a directory tree that shows Git status and ignores files dictated by `.gitignore`.
 
 ``` sh
 $ npm i -g gitree
