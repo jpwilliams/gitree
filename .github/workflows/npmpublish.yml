@@ -42,6 +42,9 @@ jobs:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
           scope: '@jpwilliams'
-      - run: npm publish
+      - name: "publish to gpr"
+        run: |
+          echo @jpwilliams:registry=https://npm.pkg.github.com/ >> .npmrc
+          npm publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
