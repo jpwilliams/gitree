@@ -44,6 +44,6 @@ jobs:
           scope: '@jpwilliams'
       - name: 'publish to gpr'
         run: |
-          npm publish --registry=https://npm.pkg.github.com --scope=@jpwilliams
+          npm publish --registry=https://npm.pkg.github.com/jpwilliams --scope=@jpwilliams
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
