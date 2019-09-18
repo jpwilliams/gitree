@@ -11,7 +11,9 @@ $ gitree
 $ npx @jpwilliams/gitree
 ```
 
-![Example](https://user-images.githubusercontent.com/1736957/29526963-3e3c8178-868f-11e7-875f-a15364a49cf9.png)
+<p align="center">
+  <img width="750" height="491" src="https://user-images.githubusercontent.com/1736957/65135842-8783e780-d9fe-11e9-887b-3e04381795ac.png">
+</p>
 
 # What?
 
