@@ -11,7 +11,9 @@ $ gitree
 $ npx @jpwilliams/gitree
 ```
 
-![Example](https://user-images.githubusercontent.com/1736957/29526963-3e3c8178-868f-11e7-875f-a15364a49cf9.png)
+<p align="center">
+  <img width="750" height="491" src="https://user-images.githubusercontent.com/1736957/65135842-8783e780-d9fe-11e9-887b-3e04381795ac.png">
+</p>
 
 # What?
 
@@ -21,9 +23,7 @@ Like Git, `gitree` only tracks _files_, so empty directories will never be liste
 
 # What does it show?
 
-`gitree` shows any files that your repository's `.gitignore` files allows you to see, marking them with useful statuses:
-
-![Statuses](https://user-images.githubusercontent.com/1736957/29529312-12082cbc-8697-11e7-9d3e-a11f9bbb0d12.png)
+`gitree` shows any files that your repository's `.gitignore` files allows you to see, marking them with useful statuses like the ones in the screenshot above.
 
 # What if it's not a Git repository?
 
@@ -39,10 +39,11 @@ Usage: gitree [options] [dir]
 
 Options:
 
-  -V, --version   output the version number
-  -m, --modified  only show modified files
-  -t, --tracked   only show tracked files
-  -h, --help      output usage information
+  -V, --version           output the version number
+  -m, --modified          only show modified files
+  -t, --tracked           only show tracked files
+  -I, --ignore <pattern>  do not list files that match the given pattern
+  -h, --help              output usage information
 ```
 
 # Can it get any cooler?
