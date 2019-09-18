@@ -12,7 +12,8 @@ const {
   buildTree,
   filesFromGitStatus,
   printTree,
-  getGitLineChanges
+  getGitLineChanges,
+  collect
 } = microloader('.', {
   objectify: true,
   cwd: path.join(__dirname, 'utils')
@@ -23,6 +24,7 @@ program
   .usage('[options] [dir]')
   .option('-m, --modified', 'only show modified files')
   .option('-t, --tracked', 'only show tracked files')
+  .option('-I, --ignore <pattern>', 'do not list files that match the given glob pattern', collect, [])
   .parse(process.argv)
 
 gitree(program.args[0] || '.')
@@ -60,6 +62,6 @@ async function gitree (p) {
   }
 
   const nodes = await buildNodes(files, gitStatuses, gitLineChanges, p, program.tracked)
-  const tree = buildTree(nodes, p)
+  const tree = buildTree(nodes, p, program.ignore)
   printTree(tree)
 }

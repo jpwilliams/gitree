@@ -1,13 +1,23 @@
 const path = require('path')
+const ignore = require('ignore')
 const getFileTarget = require('./getFileTarget')
 
-function buildTree (nodes, p) {
+function buildTree (nodes, p, ignorePattern) {
+  const ig = ignore()
+  if (ignorePattern) ig.add(ignorePattern)
+
   const isAbsolute = path.isAbsolute(p)
   const basePath = isAbsolute ? p : path.join(process.cwd(), p)
 
   const parsedNodes = nodes
     .reduce((nodes, node, i) => {
       const calculatedPath = path.relative(basePath, node.to)
+
+      if (ignorePattern) {
+        const shouldBeIgnored = ig.ignores(calculatedPath)
+        if (shouldBeIgnored) return nodes
+      }
+
       const fakePath = calculatedPath
 
       const split = fakePath.split(path.sep)
