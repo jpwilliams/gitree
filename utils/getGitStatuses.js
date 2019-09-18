@@ -1,25 +1,25 @@
-const path = require('path')
 const execa = require('execa')
 const parseGitStatus = require('parse-git-status')
+const path = require('path')
 
 async function getGitStatuses (p) {
-  const statuses = {}
+	const statuses = {}
 
-  try {
-    const { stdout: statusOut } = await execa.shell(`git status --porcelain -z -uall .`, {
-      cwd: path.resolve(process.cwd(), p)
-    })
+	try {
+		const { stdout: statusOut } = await execa.shell(`git status --porcelain -z -uall .`, {
+			cwd: path.resolve(process.cwd(), p)
+		})
 
-    const gitStatuses = parseGitStatus(statusOut)
+		const gitStatuses = parseGitStatus(statusOut)
 
-    gitStatuses.forEach((status) => {
-      statuses[status.to] = status
-    })
+		gitStatuses.forEach((status) => {
+			statuses[status.to] = status
+		})
 
-    return statuses
-  } catch (e) {
-    return []
-  }
+		return statuses
+	} catch (e) {
+		return []
+	}
 }
 
 module.exports = getGitStatuses

@@ -1,5 +1,5 @@
-const path = require('path')
 const execa = require('execa')
+const path = require('path')
 
 // TODO Also run git diff --numstat -z --cached . to get staged commits (renamed files etc)
 async function getGitLineChanges (p) {
