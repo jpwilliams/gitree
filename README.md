@@ -12,7 +12,7 @@ $ npx @jpwilliams/gitree
 ```
 
 <p align="center">
-  <img width="750" height="491" src="https://user-images.githubusercontent.com/1736957/65135842-8783e780-d9fe-11e9-887b-3e04381795ac.png">
+  <img src="https://user-images.githubusercontent.com/1736957/65135842-8783e780-d9fe-11e9-887b-3e04381795ac.png">
 </p>
 
 # What?
