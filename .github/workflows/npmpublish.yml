@@ -1,12 +1,9 @@
 name: Node.js Package
 
 on:
-  pull_request:
-    branches:
-      - master
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -28,7 +25,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm publish
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
 
@@ -41,7 +38,9 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-          scope: '@your-github-username'
-      - run: npm publish
+          scope: '@jpwilliams'
+      - name: 'publish to gpr'
+        run: |
+          npm publish --registry=https://npm.pkg.github.com/jpwilliams --scope=@jpwilliams
         env:
-          NODE_AUTH_TOKEN: ${{secrets.github_package_token}}
+          NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}

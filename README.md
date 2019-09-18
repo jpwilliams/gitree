@@ -1,14 +1,14 @@
-# gitree
+# @jpwilliams/gitree
 
 Print a directory tree that shows Git status and ignores files dictated by `.gitignore`.
 
 ``` sh
-$ npm i -g gitree
+$ npm i -g @jpwilliams/gitree
 $ gitree
 
 # OR
 
-$ npx gitree
+$ npx @jpwilliams/gitree
 ```
 
 ![Example](https://user-images.githubusercontent.com/1736957/29526963-3e3c8178-868f-11e7-875f-a15364a49cf9.png)
