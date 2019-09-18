@@ -24,7 +24,7 @@ program
   .usage('[options] [dir]')
   .option('-m, --modified', 'only show modified files')
   .option('-t, --tracked', 'only show tracked files')
-  .option('-I, --ignore <pattern>', 'do not list files that match the given glob pattern', collect, [])
+  .option('-I, --ignore <pattern>', 'do not list files that match the given pattern', collect, [])
   .parse(process.argv)
 
 gitree(program.args[0] || '.')
