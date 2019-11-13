@@ -1,12 +1,12 @@
 const chalk = require('chalk')
 const path = require('path')
 
-function printTree (tree, level = 0, prefix = '') {
+function printTree (tree, collapse, level = 0, prefix = '') {
 	const len = tree.length - 1
 
-	tree.forEach((node, i) => {
+	function makeLine(node) {
 		let line = ''
-
+	
 		if (node.type === 'directory') {
 			line += chalk.bold.blue(node.name)
 		} else {
@@ -45,8 +45,20 @@ function printTree (tree, level = 0, prefix = '') {
 				}
 			}
 		}
+		return line;
+	}
+
+	tree.forEach((node, i) => {
+
+		let line = makeLine(node)
 
 		const pointer = level > 0 ? (len > 0 ? (i === len ? '└── ' : '├── ') : (level ? '└── ' : '')) : ''
+
+		while (collapse && node.contents && node.contents.length == 1)
+		{
+			node = node.contents[0]
+			line += '/' + makeLine(node)
+		}
 
 		console.log(prefix + pointer + line)
 
@@ -54,7 +66,7 @@ function printTree (tree, level = 0, prefix = '') {
 			let newPrefix = prefix
 			if (level) newPrefix += `${i === len ? ' ' : '│'}   `
 
-			printTree(node.contents, level + 1, newPrefix)
+			printTree(node.contents, collapse, level + 1, newPrefix)
 		}
 	})
 }
