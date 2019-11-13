@@ -46,7 +46,7 @@ function makeLine (node) {
 	return line
 }
 
-function printTree (tree, collapse, level = 0, prefix = '') {
+function printTree (tree, collapse, devicon, level = 0, prefix = '') {
 	const len = tree.length - 1
 
 	tree.forEach((node, i) => {
@@ -61,13 +61,16 @@ function printTree (tree, collapse, level = 0, prefix = '') {
 			}
 		}
 
+		if (devicon)
+			line = devicon(node.name, node.type === 'directory') + ' ' + line
+
 		console.log(prefix + pointer + line)
 
 		if (node.contents && node.contents.length) {
 			let newPrefix = prefix
 			if (level) newPrefix += `${i === len ? ' ' : '│'}   `
 
-			printTree(node.contents, collapse, level + 1, newPrefix)
+			printTree(node.contents, collapse, devicon, level + 1, newPrefix)
 		}
 	})
 }
