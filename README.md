@@ -42,6 +42,7 @@ Options:
   -V, --version           output the version number
   -m, --modified          only show modified files
   -t, --tracked           only show tracked files
+  -c, --collapse          collapse directory nodes that contain a single child
   -I, --ignore <pattern>  do not list files that match the given pattern
   -h, --help              output usage information
 ```
