@@ -14,8 +14,7 @@ const {
 	filesFromGitStatus,
 	printTree,
 	getGitLineChanges,
-	collect,
-	devicon
+	collect
 } = microloader('.', {
 	objectify: true,
 	cwd: path.join(__dirname, 'utils')
@@ -67,5 +66,5 @@ async function gitree (p) {
 
 	const nodes = await buildNodes(files, gitStatuses, gitLineChanges, p, program.tracked)
 	const tree = buildTree(nodes, p, program.ignore)
-	printTree(tree, program.collapse, program.devicons ? devicon : null)
+	printTree(tree, program.collapse, program.devicons)
 }
