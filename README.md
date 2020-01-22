@@ -33,7 +33,7 @@ It won't work. You must be somewhere within a Git repository to list any files. 
 
 Just this stuff:
 
-``` sh
+``` 
 Usage: gitree [options] [dir]
 
 
@@ -43,9 +43,12 @@ Options:
   -m, --modified          only show modified files
   -t, --tracked           only show tracked files
   -c, --collapse          collapse directory nodes that contain a single child
+  -d, --devicons          print matching devicons next to files
   -I, --ignore <pattern>  do not list files that match the given pattern
   -h, --help              output usage information
 ```
+
+_Note that for devicons to work, you must have a font with devicon glyphs installed. A good place to start is [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts)._
 
 # Can it get any cooler?
 

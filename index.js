@@ -26,6 +26,7 @@ program
 	.option('-m, --modified', 'only show modified files')
 	.option('-t, --tracked', 'only show tracked files')
 	.option('-c, --collapse', 'collapse directory nodes that contain a single child')
+	.option('-d, --devicons', 'print matching devicons next to files')
 	.option('-I, --ignore <pattern>', 'do not list files that match the given pattern', collect, [])
 	.parse(process.argv)
 
@@ -65,5 +66,5 @@ async function gitree (p) {
 
 	const nodes = await buildNodes(files, gitStatuses, gitLineChanges, p, program.tracked)
 	const tree = buildTree(nodes, p, program.ignore)
-	printTree(tree, program.collapse)
+	printTree(tree, program.collapse, program.devicons)
 }
