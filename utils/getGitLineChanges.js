@@ -7,8 +7,8 @@ async function getGitLineChanges (p) {
 
 	try {
 		;([{ stdout: statusOutDiff }, { stdout: statusOutCached }] = await Promise.all([
-			execa.shell('git diff --numstat -z .', { cwd: path.resolve(process.cwd(), p) }),
-			execa.shell('git diff --numstat -z --cached .', { cwd: path.resolve(process.cwd(), p) })
+			execa.command('git diff --numstat -z .', { cwd: path.resolve(process.cwd(), p), shell: true }),
+			execa.command('git diff --numstat -z --cached .', { cwd: path.resolve(process.cwd(), p), shell: true })
 		]))
 	} catch (e) {
 		return {}
