@@ -53,3 +53,11 @@ _Note that for devicons to work, you must have a font with devicon glyphs instal
 # Can it get any cooler?
 
 There's a built-in alias, `gt`. Fantabulous, eh?
+
+# Alternatives
+
+The wonderful [ogham/exa](https://github.com/ogham/exa) can print a similar tree **without** detailed change information/filtering with:
+
+``` sh
+exa --git-ignore --tree --all --icons --ignore-glob .git
+```
